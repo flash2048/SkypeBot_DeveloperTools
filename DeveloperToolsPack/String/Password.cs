@@ -1,0 +1,22 @@
+﻿using System;
+using System.Web.Security;
+using DeveloperToolsPack.Interfaces;
+
+namespace DeveloperToolsPack.String
+{
+    class Password : ITool
+    {
+        public string Description { get; set; } = "**Password** \t Generate new random password (password length)";
+        public string CommandName { get; set; } = "Password";
+        public string Run(string str)
+        {
+            var len = 8;
+
+            if (!System.String.IsNullOrEmpty(str))
+            {
+                Int32.TryParse(str, out len);
+            }
+            return Membership.GeneratePassword(len, 1);
+        }
+    }
+}
