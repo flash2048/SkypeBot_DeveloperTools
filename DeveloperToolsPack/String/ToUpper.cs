@@ -4,8 +4,8 @@ namespace DeveloperToolsPack.String
 {
     class ToUpper: ITool
     {
-        public string Description { get; set; } = "**ToUpper** \t String converted  to uppercase";
-        public string CommandName { get; set; } = "ToUpper";
+        public string Description { get; set; } = "String converted  to uppercase";
+        public string CommandName { get; set; } = "/toUpper";
         public string Run(string str)
         {
             if (!System.String.IsNullOrEmpty(str))

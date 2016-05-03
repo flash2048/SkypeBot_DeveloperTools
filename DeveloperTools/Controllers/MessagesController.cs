@@ -22,7 +22,7 @@ namespace DeveloperTools
         {
             if (message.Type == "Message")
             {
-                var developerTools = new DeveloperToolsPack.DeveloperTools();
+                var developerTools = new DeveloperToolsPack.DeveloperTools(message.From.ChannelId);
                 return message.CreateReplyMessage(developerTools.Run(message.Text));
             }
             else

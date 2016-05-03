@@ -5,8 +5,8 @@ namespace DeveloperToolsPack.String
 {
     class FromBase64 : ITool
     {
-        public string Description { get; set; } = "**FromBase64** \t Convert Base64 string to normal state";
-        public string CommandName { get; set; } = "FromBase64";
+        public string Description { get; set; } = "Convert Base64 string to normal state";
+        public string CommandName { get; set; } = "/fromBase64";
         public string Run(string str)
         {
             if (!System.String.IsNullOrEmpty(str))

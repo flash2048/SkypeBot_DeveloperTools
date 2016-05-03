@@ -5,8 +5,8 @@ namespace DeveloperToolsPack.DateTime
 {
     class FromUnixTime : ITool
     {
-        public string Description { get; set; } = "**FromUnixTime** \t Сonvert date from Unix time to dd.MM.yyyy HH:mm:ss";
-        public string CommandName { get; set; } = "FromUnixTime";
+        public string Description { get; set; } = "Сonvert date from Unix time to dd.MM.yyyy HH:mm:ss";
+        public string CommandName { get; set; } = "/fromUnixTime";
         public string Run(string str)
         {
             if (!System.String.IsNullOrEmpty(str))

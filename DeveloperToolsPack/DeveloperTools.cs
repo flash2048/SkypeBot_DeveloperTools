@@ -12,8 +12,9 @@ namespace DeveloperToolsPack
     public class DeveloperTools
     {
         private Dictionary<string, ITool> _tools;
+        private string _channelId;
 
-        public DeveloperTools()
+        public DeveloperTools(string channelId = "skype")
         {
             AddTool(new ToUpper());
             AddTool(new ToLower());
@@ -24,6 +25,7 @@ namespace DeveloperToolsPack
             AddTool(new FromUnixTime());
             AddTool(new ToUnixTime());
             AddTool(new Password());
+            _channelId = channelId;
         }
 
         private void AddTool(ITool tool)
@@ -55,23 +57,44 @@ namespace DeveloperToolsPack
                 {
                     command = str.ToLower();
                 }
+                var originalCommand = command;
+                if (command[0] != '/')
+                {
+                    command = "/" + command;
+                }
+
                 if (_tools.ContainsKey(command))
                 {
                     return _tools[command].Run(commandText);
                 }
                 else
                 {
-                    if (command == "help")
+                    if (command == "/help")
                     {
                         var returnString = new StringBuilder();
                         foreach (var tool in _tools)
                         {
-                            returnString.Append(tool.Value.Description + "\n\r");
+                            switch (_channelId)
+                            {
+                                case "skype": returnString.Append($"**{tool.Value.CommandName.Trim('/')}** - {tool.Value.Description}\n\r"); break;
+                                default:
+                                    returnString.Append($"{tool.Value.CommandName.ToLower()} - {tool.Value.Description}\n\r");
+                                    break;
+                            }
                         }
                         return returnString.ToString();
                     }
+                    string help;
+                    switch (_channelId)
+                    {
+                        case "skype":
+                            help = "help"; break;
+                        default:
+                            help = "/help";
+                            break;
+                    }
 
-                    return $"Command \"**{command}**\" not found. See \"**help**\" command.";
+                    return $"Command \"**{originalCommand}**\" not found. See \"**{help}**\" command.";
                 }
             }
             return "Please input a string";

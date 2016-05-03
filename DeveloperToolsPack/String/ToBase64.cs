@@ -5,8 +5,8 @@ namespace DeveloperToolsPack.String
 {
     class ToBase64 : ITool
     {
-        public string Description { get; set; } = "**ToBase64** \t Convert string to Base64";
-        public string CommandName { get; set; } = "ToBase64";
+        public string Description { get; set; } = "Convert string to Base64";
+        public string CommandName { get; set; } = "/toBase64";
         public string Run(string str)
         {
             if (!System.String.IsNullOrEmpty(str))

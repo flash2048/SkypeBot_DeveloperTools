@@ -7,8 +7,8 @@ namespace DeveloperToolsPack.Number
 {
     class ConvertTo : ITool
     {
-        public string Description { get; set; } = "**ConvertTo** \t Сonvert numbers to any number system (ConvertTo number from to)";
-        public string CommandName { get; set; } = "ConvertTo";
+        public string Description { get; set; } = "Сonvert numbers to any number system (ConvertTo number from to)";
+        public string CommandName { get; set; } = "/convertTo";
         public string Run(string str)
         {
             if (!System.String.IsNullOrEmpty(str))

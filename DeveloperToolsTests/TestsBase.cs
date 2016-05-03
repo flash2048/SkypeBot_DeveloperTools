@@ -17,9 +17,9 @@ namespace DeveloperToolsTests
         [TestMethod]
         public void CommandQweNotFount()
         {
-            var developerTools = new DeveloperTools();
-            var result = developerTools.Run("qwe this is text");
-            Assert.AreEqual(result, "Command \"**qwe**\" not found. See \"**help**\" command.");
+            var developerTools = new DeveloperTools("telegram");
+            var result = developerTools.Run("/qwe this is text");
+            Assert.AreEqual(result, "Command \"**/qwe**\" not found. See \"**/help**\" command.");
         }
 
         [TestMethod]
