@@ -3,6 +3,8 @@
 
 ## Ссылки
 
+* [Бот в Telegram](https://telegram.me/DeveloperTools_Bot)
+* [Бот в Skype](https://join.skype.com/bot/79328915-03b3-4f0e-b1a5-17d688871fa4)
 * [Статья на сайте](http://flash2048.com/post/create-bot-for-skype)
 * [Bot Application template](http://aka.ms/bf-bc-vstemplate)
 * [Bot Framework Emulator](http://download.botframework.com/botconnector/tools/emulator/publish.htm)
