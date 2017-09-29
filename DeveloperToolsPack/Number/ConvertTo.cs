@@ -41,13 +41,13 @@ namespace DeveloperToolsPack.Number
                         }
                     }
                     activity.Text = Converter.ConvertTo(a[0], to, from);
-                    
+                    context.Done(activity);
                 }
                 else
                 {
-                    activity.Text = System.String.Empty;
+                    await context.PostAsync("Enter text");
+                    context.Wait(Run);
                 }
-                context.Done(activity);
             }
         }
 
