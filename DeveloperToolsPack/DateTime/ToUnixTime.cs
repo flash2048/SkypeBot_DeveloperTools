@@ -1,23 +1,51 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading.Tasks;
 using DeveloperToolsPack.Interfaces;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 
 namespace DeveloperToolsPack.DateTime
 {
+    [Serializable]
     class ToUnixTime : ITool
     {
-        public string Description { get; set; } = "Сonvert date in format dd.MM.yyyy HH:mm:ss to Unix time format";
-        public string CommandName { get; set; } = "/toUnixTime";
-        public string Run(string str)
+        public string Description { get; set; }
+        public List<string> CommandNames { get; set; }
+        public bool IsAdmin { get; set; }
+
+        public ToUnixTime()
         {
-            if (!System.String.IsNullOrEmpty(str))
+            Description = "Сonvert date in format dd.MM.yyyy HH:mm:ss to Unix time format";
+            CommandNames = new List<string>() { "/toUnixTime" };
+        }
+
+        public virtual async Task Run(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
+            var activity = await result as Activity;
+            if (activity?.Conversation != null)
             {
-                
-                System.DateTime date = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
-                System.DateTime date2;
-                System.DateTime.TryParse(str, out date2);
-                return (date2-date).TotalSeconds.ToString(CultureInfo.InvariantCulture);
+                if (!string.IsNullOrEmpty(activity.Text))
+                {
+                    System.DateTime date = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
+                    System.DateTime date2;
+                    System.DateTime.TryParse(activity.Text, out date2);
+                    activity.Text = (date2 - date).TotalSeconds.ToString(CultureInfo.InvariantCulture);
+                    context.Done(activity);
+
+                }
+                else
+                {
+                    await context.PostAsync("Enter text");
+                    context.Wait(Run);
+                }
             }
-            return System.String.Empty;
+        }
+
+        public async Task StartAsync(IDialogContext context)
+        {
+            context.Wait(this.Run);
         }
     }
 }

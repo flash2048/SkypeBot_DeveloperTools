@@ -1,18 +1,45 @@
-﻿using DeveloperToolsPack.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using DeveloperToolsPack.Interfaces;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 
 namespace DeveloperToolsPack.String
 {
+    [Serializable]
     class ToLower: ITool
     {
-        public string Description { get; set; } = "String converted  to lowercase";
-        public string CommandName { get; set; } = "/toLower";
-        public string Run(string str)
+        public string Description { get; set; }
+        public List<string> CommandNames { get; set; }
+        public bool IsAdmin { get; set; }
+
+        public ToLower()
         {
-            if (!System.String.IsNullOrEmpty(str))
+            Description = "String converted  to lowercase";
+            CommandNames = new List<string>() { "/tolower" };
+        }
+
+        public virtual async Task Run(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
+            var activity = await result as Activity;
+            if (activity?.Conversation != null)
             {
-                return str.ToLower();
+                if (!string.IsNullOrEmpty(activity.Text))
+                {
+                    activity.Text = activity.Text.ToLower();
+                    context.Done(activity);
+                }
+                else
+                {
+                    await context.PostAsync("Enter text");
+                    context.Wait(Run);
+                }
             }
-            return System.String.Empty;
+        }
+        public async Task StartAsync(IDialogContext context)
+        {
+            context.Wait(this.Run);
         }
     }
 }

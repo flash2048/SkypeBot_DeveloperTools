@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 
 namespace DeveloperToolsPack.Interfaces
 {
-    interface ITool
+    public interface ITool: IDialog<object>
     {
         string Description { get; set; }
-        string CommandName { get; set; }
-        string Run(string str);
+        List<string> CommandNames { get; set; }
+        Task Run(IDialogContext context, IAwaitable<IMessageActivity> result);
     }
 }

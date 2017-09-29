@@ -1,32 +1,59 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DeveloperToolsPack.Interfaces;
 using DeveloperToolsPack.WorkClasses;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 
 namespace DeveloperToolsPack.Number
 {
+    [Serializable]
     class ConvertTo : ITool
     {
-        public string Description { get; set; } = "Сonvert numbers to any number system (ConvertTo number from to)";
-        public string CommandName { get; set; } = "/convertTo";
-        public string Run(string str)
+        public string Description { get; set; }
+        public List<string> CommandNames { get; set; }
+        public bool IsAdmin { get; set; }
+
+        public ConvertTo()
         {
-            if (!System.String.IsNullOrEmpty(str))
+            Description = "Сonvert numbers to any number system (ConvertTo number from to)";
+            CommandNames = new List<string>() { "/convertTo" };
+        }
+
+        public virtual async Task Run(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
+            var activity = await result as Activity;
+            if (activity?.Conversation != null)
             {
-                var a = str.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries).ToArray();
-                var to = 2;
-                var from = 10;
-                if (a.Length > 1)
+                if (!string.IsNullOrEmpty(activity.Text))
                 {
-                    Int32.TryParse(a[1], out from);
-                    if (a.Length > 2)
+                    var a = activity.Text.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).ToArray();
+                    var to = 2;
+                    var from = 10;
+                    if (a.Length > 1)
                     {
-                        Int32.TryParse(a[2], out to);
+                        Int32.TryParse(a[1], out from);
+                        if (a.Length > 2)
+                        {
+                            Int32.TryParse(a[2], out to);
+                        }
                     }
+                    activity.Text = Converter.ConvertTo(a[0], to, from);
+                    
                 }
-                return Converter.ConvertTo(a[0], to, from);
+                else
+                {
+                    activity.Text = System.String.Empty;
+                }
+                context.Done(activity);
             }
-            return System.String.Empty;
+        }
+
+        public async Task StartAsync(IDialogContext context)
+        {
+            context.Wait(this.Run);
         }
     }
 }
