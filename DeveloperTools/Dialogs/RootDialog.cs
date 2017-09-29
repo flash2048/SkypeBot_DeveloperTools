@@ -41,7 +41,7 @@ namespace DeveloperTools.Dialogs
             var activity = await result as Activity;
             if (!String.IsNullOrEmpty(activity?.Text))
             {
-                var str = activity.Text.Trim();
+                var str = activity.Text.Trim().Replace("@DeveloperTools_Bot", "");
                 var indexOfSpace = str.IndexOf(" ", StringComparison.Ordinal);
                 var command = indexOfSpace != -1 ? str.Substring(0, indexOfSpace).ToLower() : str.ToLower();
                 if (command[0] != '/')
